@@ -1,0 +1,360 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cstdio>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+using namespace std; 
+
+
+//easy:Определить общую стоимость всех товаров выпущенных в этом году и вывести инфу о них
+//medium:вывести сведения о сотрудниках родившихся в мае
+//hard: описать структуру с именем NOTE1
+//ввод с клавиатуры данных в массив BLOCK, состоящих из 9 ел типа NOTE1
+//вывод на экран инфы о людях, которые род в месяц введ с клавиатуры
+
+//easy
+struct Product
+{
+  char Name[50];
+  char Developer[50];
+  int Year;
+  int count;
+  int price;
+};
+
+
+//medium
+    struct Money
+{ 
+  int year;
+  int quantity;
+  int price;
+  };
+
+    struct DateBorn
+{
+  int day;
+  int month;
+  int year;
+  bool IsCorect();
+public: void ShowDate();
+  };
+
+
+void DateBorn::ShowDate()
+{
+  cout << day << "." << month<<"." << year << endl;
+}
+
+bool DateBorn::IsCorect()
+{
+  bool result = false;
+  switch (month)
+  {
+  case 1:
+  case 3:
+  case 5:
+  case 7:
+  case 8:
+  case 10:
+  case 12:
+  {
+    if ((day <= 31) && (day > 0))
+      result = true;
+    break;
+  }
+
+  case 4:
+  case 6:
+  case 9:
+  case 11:
+  {
+    if ((day <= 30) && (day > 0))
+      result = true;
+    break;
+  }
+
+  case 2:
+  {
+    if (year % 4 != 0)
+    {
+      if ((day <= 28) && (day > 0))
+        result = true;
+    }
+    else
+      if (year % 400 == 0)
+      {
+        if ((day <= 29) && (day > 0))
+          result = true;
+      }
+      else
+        if ((year % 100 == 0) && (year % 400 != 0))
+        {
+          if ((day == 28) && (day > 0))
+            result = true;
+        }
+        else
+          if ((year % 4 == 0) && (year % 100 != 0))
+            if ((day <= 29) && (day > 0))
+              result = true;
+    break;
+  }
+
+  default:
+    result = false;
+  }
+
+  return result;
+  
+}
+
+struct Emploee
+{
+  string Name;
+  string Surname;
+  string Patronymic;
+  string Position;
+  DateBorn date_born;
+  struct Manager
+  {
+    static const int salary = 100000;
+
+  };
+  
+  struct Rower
+  {
+    static const  int salary = 3000;
+  };
+};
+
+void ShowInfoForMayEmploee(const int num_may_emp,Emploee* mas_emploee,int count_may_emp)
+{
+cout << "FullName\tPosition\tDate_Born\tManager_Salary\tRower_Salary\n";
+for (int i = 0; i < count_may_emp; i++)
+{
+  if (num_may_emp == mas_emploee[i].date_born.month)
+  {
+    cout << mas_emploee[i].Name<<" "<< mas_emploee[i].Surname<<" "<< mas_emploee[i].Patronymic << "\t\t";
+    cout << mas_emploee[i].Position << "\t\t";
+    cout<<mas_emploee[i].date_born.day<<"."<<mas_emploee[i].date_born.month<<"."<<mas_emploee[i].date_born.year<< "\t\t";
+    cout << Emploee::Manager::salary << "\t\t";
+    cout << Emploee::Rower::salary << endl;
+  }
+}
+}
+
+//hard
+  struct DB
+{
+  int day;
+  int month;
+  int year;
+  bool Corect();
+  };
+  
+struct NOTE1 {
+  char Name[50];
+  char Surname[50];
+  char TELE[15];
+  DB d_b;
+};
+
+bool DB::Corect()
+{
+  bool result = false;
+  switch (month)
+  {
+  case 1:
+  case 3:
+  case 5:
+  case 7:
+  case 8:
+  case 10:
+  case 12:
+  {
+    if ((day <= 31) && (day > 0))
+      result = true;
+    break;
+  }
+
+  case 4:
+  case 6:
+  case 9:
+  case 11:
+  {
+    if ((day <= 30) && (day > 0))
+      result = true;
+    break;
+  }
+
+  case 2:
+  {
+    if (year % 4 != 0)
+    {
+      if ((day <= 28) && (day > 0))
+        result = true;
+    }
+    else
+      if (year % 400 == 0)
+      {
+        if ((day <= 29) && (day > 0))
+          result = true;
+      }
+      else
+        if ((year % 100 == 0) && (year % 400 != 0))
+        {
+          if ((day == 28) && (day > 0))
+            result = true;
+        }
+        else
+          if ((year % 4 == 0) && (year % 100 != 0))
+            if ((day <= 29) && (day > 0))
+              result = true;
+    break;
+  }
+
+  default:
+    result = false;
+  }
+
+  return result;
+  
+}
+
+
+
+void TaskEasy()
+{
+        cout << "Task: Easy\n"; 
+        Product MasProduct[2];
+        for(int i=0;i<2;i++)
+         {
+             cout<<"\nВведите название товара: ";
+             cin>>MasProduct[i].Name;
+             cout<<"\nВведите производителя: ";
+             cin>>MasProduct[i].Developer;
+             cout<<"\nВведите год выпуска ";
+             cin>>MasProduct[i].Year;
+             cout<<"\nВведите количество товара на складе ";
+             cin>>MasProduct[i].count;
+             cout<<"\nВведите цену за 1 ед.товара ";
+             cin>>MasProduct[i].price;
+         }
+         int PriceAllProducts=0;
+         cout << "Имя товара\tИмя производителя\tКоличество товара на складе\tЦена за 1 ед.товара \n";
+         for(int i=0;i<2;i++)
+         {
+              if(MasProduct[i].Year==2020)
+              {
+               PriceAllProducts+= (MasProduct[i].price*MasProduct[i].count);
+                cout<<MasProduct[i].Name<< "\t\t";
+                cout<<MasProduct[i].Developer<< "\t\t\t";
+                cout <<  MasProduct[i].count << "\t\t\t\t";
+                cout << MasProduct[i].price << "\t";
+               cout<<" "<<endl;
+              }
+             
+         }
+         
+         cout<<"Общяя стоимость -> "<<PriceAllProducts<<endl;
+         cout<< "Сегодняшний год - 2020"<<endl;
+}
+
+
+void TaskNormal()
+{
+    cout << "\nTask: Normal\n";  
+      Emploee* mas_emploee = new Emploee[2];
+  
+  int min = 20000;
+  int may_month =5;
+  int num_may_emp;
+  int count_may_emp=0;
+  for (size_t i = 0; i < 2; i++)
+  {
+           cout << "Введите ФИО "<<i+1 << "-ого сотрудника: ";
+           cin>>mas_emploee[i].Name>> mas_emploee[i].Surname>> mas_emploee[i].Patronymic;
+         cout << "\nВведите должность " << i + 1 << "-ого  сотрудника(Manager/Worker): ";
+         cin >> mas_emploee[i].Position;
+         cout << "\nВведите дату рождения " << i + 1 << "-ого сотрудника через пробел(например 12 12 12):";
+         cin >> mas_emploee[i].date_born.day >> mas_emploee[i].date_born.month >> mas_emploee[i].date_born.year;
+         if (mas_emploee[i].date_born.month == may_month)
+         {
+           num_may_emp = mas_emploee[i].date_born.month;
+           count_may_emp++;
+         }
+  }
+  ShowInfoForMayEmploee(num_may_emp,mas_emploee, count_may_emp);
+}
+
+
+void TaskHard()
+{
+    cout << "Task: Hard\n"; 
+    const int n = 9;
+    NOTE1 *block = new NOTE1[n];
+    int i, m, num_m, count_m=0;
+    for(i=0;i<9;i++) 
+    {
+    cout << i+1<<endl;
+    cout << "Введите фамилию и инициалы: " ;
+    cin >> block[i].Surname >>block[i].Name;
+    cout << "Введите номер телефона: ";
+    cin >> block[i].TELE;
+    cout << "Введите дату рождения: ";
+    cin >> block[i].d_b.day >> block[i].d_b.month >> block[i].d_b.year;
+    }
+    
+    NOTE1 temp;
+  for (i = 0; i <= n; i++)
+  {
+    for (int j = n - 1; j > i; j--)
+    {
+      if (strcmp(block[j].Surname, block[j-1].Surname) < 0)          //вот тут и происходит сортировка в алфавитном порядке
+      {
+        temp = block[j];
+        block[j] = block[j - 1];
+        block[j - 1] = temp;
+
+      }
+    }
+  }
+            cout << endl;
+            for(i = 0; i < n; i++)
+            cout << block[i].Surname << " " << block[i].Name << endl;
+        
+    cout<< "Найти человека по месяцу рождения: ";
+    cin>> m;
+    cout << "Name\tTELEPHONE\tDate_Born"<<endl;
+    bool IsCorect = false;
+    for(i=0;i<9;i++) 
+    {
+    if (m == block[i].d_b.month)
+   {
+        IsCorect=true;
+        num_m = block[i].d_b.month;
+        count_m++;
+    }
+    }
+    (IsCorect == false)? cout << "Людей нет!" : cout <<"";
+   
+for (int i = 0; i < count_m; i++)
+{
+  if (num_m == block[i].d_b.month)
+  {
+    cout<<block[i].Surname<<" "<<block[i].Name<< "\t\t";
+    cout<<block[i].TELE<< "\t\t";
+    cout<<block[i].d_b.day<<"."<<block[i].d_b.month<<"."<<block[i].d_b.year<< "\t\t"<<endl;
+  }
+}
+}
+
+
+int main()
+{
+TaskEasy();
+TaskNormal();
+TaskHard();
+}
